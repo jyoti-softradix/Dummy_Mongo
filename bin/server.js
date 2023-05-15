@@ -1,13 +1,13 @@
-
+require('dotenv').config()
 import express from 'express';
 import bodyParser from 'body-parser';
-// import DB from '../src/V1/helpers/db';
 import Routes from '../src/index';
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec  from '../config/swagger'
+import swaggerSpec  from '../config/swagger';
+import DB from '../src/helper/db';
 import cors from 'cors';
 import helmet from 'helmet';
-// import authMiddleWare from '../src/V1/helpers/middlewares';
+import authMiddleWare from '../src/helper/middleware';
 const morgan = require("morgan");
 
 export default class Server {
@@ -46,11 +46,10 @@ export default class Server {
 
             this.app.use(helmet());
             this.app.use(authMiddleWare);
-
             this.db = new DB();
             await this.db.init();
             await this.healthCheckRoute();
-            await this.healthyDB();
+            await this.healthyDB()
             await this.configureRoutes(this.db);
             this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
             return this.app
@@ -59,6 +58,8 @@ export default class Server {
         }
     }
     
+ 
+
     async healthCheckRoute(){
         try{
             this.app.get("/",(req,res)=>{
@@ -71,7 +72,6 @@ export default class Server {
             throw err;
         }
     }
- 
     async healthyDB(){
         try{
             if(await this.db.checkConnection()){
@@ -87,12 +87,11 @@ export default class Server {
             throw err;
         }
     }
-
+ 
     async configureRoutes(db){
         this.router = express.Router();
-        const routes =  new Routes(this.router,db);
+        const routes =  new Routes(this.router, db);
         await routes.routesRegistration();
-        // this.app.use(this.router);
-        this.app.use("/", cors(), this.router);
+        this.app.use(cors(), this.router);
      }
 }

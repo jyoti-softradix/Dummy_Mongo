@@ -8,3 +8,8 @@ export const RESPONSE_CODES = {
     UNAUTHORIZED: 401,
     BAD_REQUEST: 400,
   };
+
+  export const ROLES = {
+    ADMIN: 1,
+    USER: 2,
+  };

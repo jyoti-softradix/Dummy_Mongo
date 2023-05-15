@@ -17,10 +17,57 @@ const options = {
 
 
 const swaggerSpec = swaggerJsdoc(options);
-// swaggerSpec.tags = ["Admin", "SalesRepresentative"];
 
 swaggerSpec.paths = {
   "/auth/signup": {
+    post: {
+      tags: ["auth"],
+      summary: "Login Api",
+      parameters: [
+        {
+          name: "body",
+          in: "body",
+          required: true,
+          type: "object",
+          schema: {
+            properties: {
+              first_name: {
+                type: "string",
+                default: "",
+              },
+              last_name: {
+                type: "string",
+                default: "",
+              },
+              phone_number: {
+                type: "string",
+                default: "",
+              },
+              email: {
+                type: "string",
+                default: "",
+              },
+              password: {
+                type: "string",
+                default: "",
+              },
+            },
+          },
+        },
+      ],
+      responses: {
+        200: {
+          description: "ok",
+        },
+      },
+      security: [
+        {
+          authorization: [],
+        },
+      ],
+    },
+  },
+  "/login": {
     post: {
       tags: ["auth"],
       summary: "Login Api",
@@ -51,23 +98,16 @@ swaggerSpec.paths = {
       },
     },
   },
-  "/auth/forgot-password": {
-    post: {
-      tags: ["auth"],
-      summary: "APi for forgot password",
+  "/user/delete/{id}": {
+    delete: {
+      tags: ["user"],
+      summary: "APi for delete user",
       parameters: [
         {
-          name: "body",
-          in: "body",
+          name: "id",
+          in: "path",
+          type: "string",
           required: true,
-          type: "object",
-          schema: {
-            properties: {
-              email: {
-                type: "string",
-              },
-            },
-          },
         },
       ],
       responses: {
@@ -75,42 +115,24 @@ swaggerSpec.paths = {
           description: "ok",
         },
       },
-    },
-  },
-  "/auth/reset-password": {
-    post: {
-      tags: ["auth"],
-      summary: "APi for reset password",
-      parameters: [
+      security: [
         {
-          name: "body",
-          in: "body",
-          required: true,
-          type: "object",
-          schema: {
-            properties: {
-              token: {
-                type: "string",
-              },
-              password: {
-                type: "string",
-              },
-            },
-          },
+          authorization: [],
         },
       ],
-      responses: {
-        200: {
-          description: "ok",
-        },
-      },
     },
   },
-  "/auth/change-password": {
-    post: {
-      tags: ["auth"],
-      summary: "APi for change password",
+  "/user/edit/{id}": {
+    put: {
+      tags: ["user"],
+      summary: "APi for edit user's profile",
       parameters: [
+        {
+          name: "id",
+          in: "path",
+          type: "string",
+          required: true,
+        },
         {
           name: "body",
           in: "body",
@@ -118,11 +140,17 @@ swaggerSpec.paths = {
           type: "object",
           schema: {
             properties: {
-              old_password: {
+              first_name: {
                 type: "string",
+                default: "",
               },
-              new_password: {
+              last_name: {
                 type: "string",
+                default: "",
+              },
+              phone_number: {
+                type: "string",
+                default: "",
               },
             },
           },
@@ -140,6 +168,95 @@ swaggerSpec.paths = {
       ],
     },
   },
+  // "/auth/forgot-password": {
+  //   post: {
+  //     tags: ["auth"],
+  //     summary: "APi for forgot password",
+  //     parameters: [
+  //       {
+  //         name: "body",
+  //         in: "body",
+  //         required: true,
+  //         type: "object",
+  //         schema: {
+  //           properties: {
+  //             email: {
+  //               type: "string",
+  //             },
+  //           },
+  //         },
+  //       },
+  //     ],
+  //     responses: {
+  //       200: {
+  //         description: "ok",
+  //       },
+  //     },
+  //   },
+  // },
+  // "/auth/reset-password": {
+  //   post: {
+  //     tags: ["auth"],
+  //     summary: "APi for reset password",
+  //     parameters: [
+  //       {
+  //         name: "body",
+  //         in: "body",
+  //         required: true,
+  //         type: "object",
+  //         schema: {
+  //           properties: {
+  //             token: {
+  //               type: "string",
+  //             },
+  //             password: {
+  //               type: "string",
+  //             },
+  //           },
+  //         },
+  //       },
+  //     ],
+  //     responses: {
+  //       200: {
+  //         description: "ok",
+  //       },
+  //     },
+  //   },
+  // },
+  // "/auth/change-password": {
+  //   post: {
+  //     tags: ["auth"],
+  //     summary: "APi for change password",
+  //     parameters: [
+  //       {
+  //         name: "body",
+  //         in: "body",
+  //         required: true,
+  //         type: "object",
+  //         schema: {
+  //           properties: {
+  //             old_password: {
+  //               type: "string",
+  //             },
+  //             new_password: {
+  //               type: "string",
+  //             },
+  //           },
+  //         },
+  //       },
+  //     ],
+  //     responses: {
+  //       200: {
+  //         description: "ok",
+  //       },
+  //     },
+  //     security: [
+  //       {
+  //         authorization: [],
+  //       },
+  //     ],
+  //   },
+  // },
  
 };
 
